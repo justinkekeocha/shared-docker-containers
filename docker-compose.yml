@@ -1,0 +1,19 @@
+version: "3"
+services:
+    nginx:
+        image: 'nginx:alpine'
+        ports:
+            - '80:80'
+        #Because this can be started without php being started, we have to make it to continue restarting thil php is ready.    
+        restart: unless-stopped
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./nginx/sites-available/:/etc/nginx/sites-enabled/
+            #Volume below is import for display of assets
+            - ../homeflower.org/backend/:/domains/api.homeflower.org/var/www/html
+        networks:
+            - shared
+
+networks:
+    shared:
+        driver: bridge
