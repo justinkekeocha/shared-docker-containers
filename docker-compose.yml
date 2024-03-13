@@ -10,10 +10,10 @@ services:
             - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
             - ./nginx/sites-available/:/etc/nginx/sites-enabled/
             #Volume below is import for display of assets
-            - ../homeflower.org/backend/:/domains/api.homeflower.org/var/www/html
+            - ../homeflower.org/:/domains/homeflower.org
         networks:
-            - shared
+            - shared-network
 
 networks:
-    shared:
+    shared-network:
         driver: bridge
