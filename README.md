@@ -14,6 +14,8 @@ Example:
 
 The hosts file can be found on a windows machine at `C:\Windows\System32\drivers\etc\hosts`
 
+[Reference](https://laracasts.com/discuss/channels/laravel/storage-link-not-loading-image-after-symlink?page=1&replyId=781181)
+
 ## Symlink
 
 Since docker `php artisan storage:link` won't create a docker worthy symlink, you should create the symlink by:
@@ -22,6 +24,4 @@ Since docker `php artisan storage:link` won't create a docker worthy symlink, yo
 - Cd into the public folder and run `ln -s ../storage/app/public storage`
   -If this symlink was already created by `php artisan storage:link` remove it with `php artisan storage:unlink`, before proceeding.
 
-```
-
-```
+[Reference](https://laracasts.com/discuss/channels/laravel/storage-link-not-loading-image-after-symlink?page=1&replyId=781181)
