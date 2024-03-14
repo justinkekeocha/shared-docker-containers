@@ -7,7 +7,7 @@ services:
         #Because this can be started without php being started, we have to make it to continue restarting thil php is ready.    
         restart: unless-stopped
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/sites-available/:/etc/nginx/sites-enabled/
             #Volume below is import for display of assets
             - ../homeflower.org/:/domains/homeflower.org
