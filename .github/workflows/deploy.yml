@@ -1,0 +1,46 @@
+name: Deploy backend on push
+env:
+    # PROJECT_NAME should match repository name
+    PROJECT_NAME: "shared-docker-containers"
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - ".github/workflows/deploy.yml"
+
+jobs:
+    web-deploy:
+        name: Deploy
+        runs-on: ubuntu-latest
+        steps:
+            - name: 🚚 Get latest code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+              # ensure changed-files can read repo files from git
+            - name: Configure Git Safe Directory
+              # https://github.com/tj-actions/changed-files/issues/1948#issuecomment-1957342983
+              run: git config --global --add safe.directory /__w/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}
+
+            - name: Copy Files via SSH
+              uses: appleboy/scp-action@v0.1.7
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USERNAME }}
+                  password: ${{ secrets.SSH_PASSWORD }}
+                  port: 22
+                  source: "."
+                  target: "~/projects/${{ env.PROJECT_NAME }}"
+
+            - name: SSH into server and run commands
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USERNAME }}
+                  password: ${{ secrets.SSH_PASSWORD }}
+                  script: |
+                      cd ~/projects/${{ env.PROJECT_NAME }}
+                      docker compose down
+                      docker compose up --force-recreate --build -d

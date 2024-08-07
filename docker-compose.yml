@@ -1,5 +1,3 @@
-version: "3"
-
 services:
     nginx:
         #    This Nginx serves as only as a reverse proxy for the applications hosted on this server.
